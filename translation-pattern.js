@@ -38,10 +38,11 @@ import xapi from 'xapi';
 **********************************************************/
 
 const patterns = [
-  { regex: '^([1][2][3])$', action: 'redirect', redirect: 'example@webex.com' },  // Matches 123 -> redirects to example@webex.com
-  { regex: '123@connect\.example\.com', action: 'redirect', redirect: 'example@webex.com' },  // Matches 123@connect.example.com -> redirects to example@webex.com
-  { regex: '^([7][8][9])$', action: 'redirect', redirect: 'example@webex.com' },  // Matches 789 -> redirects to example@webex.com
-  { regex: '^([0-9]{9,12})$', action: 'prefix', redirect: '.example@webex.com' }, // Matches 9-12 digits -> <numbers>+ '.example@webex.com'
+  { regex: '^([1][2][3])$', action: 'redirect', number: 'example@webex.com' },  // Matches 123 -> redirects to example@webex.com
+  { regex: '123@connect\.example\.com', action: 'redirect', number: 'example@webex.com' },  // Matches 123@connect.example.com -> redirects to example@webex.com
+  { regex: '^([7][8][9])$', action: 'redirect', number: 'example@webex.com' },  // Matches 789 -> redirects to example@webex.com
+  { regex: '^([0-9]{9,12})$', action: 'append', number: '.example@webex.com' }, // Matches 9-12 digits -> <dialled> + '.example@webex.com'
+  { regex: '^([0-9]{13})$', action: 'prefix', number: '9' }, // Matches 13 digits -> '9' + <dialled>
   { regex: '^(.*)@(.*)$', action: 'continue' } //Matches *@* URI -> Ignores URIs, allows to continue
 ]
 
@@ -51,11 +52,18 @@ const patterns = [
 
 xapi.Status.Call.on(handleOutgoing);
 
+let processedCallId
+
 function handleOutgoing(call) {
 
   if (call.Direction != 'Outgoing') return;
   if (!call.CallbackNumber) return;
-  
+
+  if (call.id === processedCallId){
+    console.log('This is a processed call, ignoring');
+    return;
+  }
+
   const callId = call.id;
   const callback = normaliseRemoteURI(call.CallbackNumber);
 
@@ -68,12 +76,16 @@ function handleOutgoing(call) {
   if (match) {
     switch (match.action) {
       case 'redirect':
-        console.log(`Number matched with expression [${match.regex}] | Redirecting to: [${match.redirect}]`);
-        changeCall(callId, match.redirect)
+        console.log(`Number matched with expression [${match.regex}] | Redirecting to: [${match.number}]`);
+        changeCall(callId, match.number)
         break;
       case 'prefix':
-        console.log(`Number matched with expression [${match.regex}] | Redirecting to: [${callback+match.redirect}]`);
-        changeCall(callId, callback+match.redirect)
+        console.log(`Number matched with expression [${match.regex}] | Redirecting to: [${match.number + callback}]`);
+        changeCall(callId, match.number + callback)
+        break;
+      case 'append':
+        console.log(`Number matched with expression [${match.regex}] | Redirecting to: [${callback + match.number}]`);
+        changeCall(callId, callback + match.number)
         break;
       case 'continue':
         console.log(`Number matched with expression [${match.regex}] | Ignoring call`);
@@ -86,12 +98,14 @@ function handleOutgoing(call) {
 
 function changeCall(callId, target) {
   console.log(`Disconnecting CallId: [${callId}]`);
+
   xapi.Command.Call.Disconnect({ CallId: callId });
   console.log(`Dialling Number: [${target}]`);
-  xapi.Command.Dial({ Number: target });
+  xapi.Command.Dial({ Number: target })
+  .then(r=>{processedCallId = r.CallId});
 }
 
-function normaliseRemoteURI(number){
+function normaliseRemoteURI(number) {
   const re = new RegExp('^(sip:|h323:|spark:|h320:|webex:|locus:)')
   return number.replace(re, '')
 }
