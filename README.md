@@ -5,10 +5,11 @@ Add as many Regex based patterns as you want, with the option to redirect, appen
 
 ```js
 const patterns = [
-  { regex: '^([1][2][3])$', action: 'redirect', redirect: 'example@webex.com' },  // Matches 123 -> redirects to example@webex.com
-  { regex: '123@connect\.example\.com', action: 'redirect', redirect: 'example@webex.com' },  // Matches 123@connect.example.com -> redirects to example@webex.com
-  { regex: '^([7][8][9])$', action: 'redirect', redirect: 'example@webex.com' },  // Matches 789 -> redirects to example@webex.com
-  { regex: '^([0-9]{9,12})$', action: 'prefix', redirect: '.example@webex.com' }, // Matches 9-12 digits -> <numbers>+ '.example@webex.com'
+  { regex: '^([1][2][3])$', action: 'redirect', number: 'example@webex.com' },  // Matches 123 -> redirects to example@webex.com
+  { regex: '123@connect\.example\.com', action: 'redirect', number: 'example@webex.com' },  // Matches 123@connect.example.com -> redirects to example@webex.com
+  { regex: '^([7][8][9])$', action: 'redirect', number: 'example@webex.com' },  // Matches 789 -> redirects to example@webex.com
+  { regex: '^([0-9]{9,12})$', action: 'append', number: '.example@webex.com' }, // Matches 9-12 digits -> <dialled> + '.example@webex.com'
+  { regex: '^([0-9]{13})$', action: 'prefix', number: '9' }, // Matches 13 digits -> '9' + <dialled>
   { regex: '^(.*)@(.*)$', action: 'continue' } //Matches *@* URI -> Ignores URIs, allows to continue
 ]
 ```
