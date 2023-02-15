@@ -1,2 +1,37 @@
-# translation-pattern-macro
-This Webex Devices macro lets you easily define locally managed translations patterns which change any dialled destination into another.
+# Translation Pattern Macro
+This Webex Devices macro lets you easily create locally managed translations patterns which change any dialled destination into another.
+
+Add as many Regex based patterns as you want, with the option to redirect, append, prefix or ignore dialled numbers.
+
+```js
+const patterns = [
+  { regex: '^([1][2][3])$', action: 'redirect', redirect: 'example@webex.com' },  // Matches 123 -> redirects to example@webex.com
+  { regex: '123@connect\.example\.com', action: 'redirect', redirect: 'example@webex.com' },  // Matches 123@connect.example.com -> redirects to example@webex.com
+  { regex: '^([7][8][9])$', action: 'redirect', redirect: 'example@webex.com' },  // Matches 789 -> redirects to example@webex.com
+  { regex: '^([0-9]{9,12})$', action: 'prefix', redirect: '.example@webex.com' }, // Matches 9-12 digits -> <numbers>+ '.example@webex.com'
+  { regex: '^(.*)@(.*)$', action: 'continue' } //Matches *@* URI -> Ignores URIs, allows to continue
+]
+```
+
+## Requirements
+
+1. RoomOS/CE 9.15.x or above Webex Device.
+2. Web admin access to the device to uplaod the macro.
+
+## Setup
+
+1. Download the ``translation-pattern.js`` file and upload it to your Webex Room device via Macro editor available on its web interface.
+2. Configure the Macro by changing the config values at the beginning, there are comments explaining each one.
+3. Enable the Macro on the editor.
+
+## Validation
+
+Validated Hardware:
+
+* Desk Pro
+* Roomkit Pro
+
+
+## Support
+
+Please reach out to the WXSD team at [wxsd@external.cisco.com](mailto:wxsd@external.cisco.com?subject=translation-pattern-macro)
