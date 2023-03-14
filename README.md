@@ -1,4 +1,6 @@
 # Translation Pattern Macro
+Welcome to our WXSD DEMO Repo! <!-- Keep this here --> 
+
 This Webex Devices macro lets you easily create locally managed translations patterns which change any dialled destination into another.
 
 Add as many Regex based patterns as you want, with the option to redirect, append, prefix or ignore dialled numbers.
@@ -13,6 +15,11 @@ const patterns = [
   { regex: '^(.*)@(.*)$', action: 'continue' } //Matches *@* URI -> Ignores URIs, allows to continue
 ]
 ```
+
+
+<!-- Keep the following here -->  
+ *_Everything included is for demo and Proof of Concept purposes only. Your use of the site is solely at your own risk. This site may contain links to third party content, which we do not warrant, endorse, or assume liability for. These demos are for Cisco Webex usecases, but are not Official Cisco Webex Branded demos._
+
 
 ## Requirements
 
