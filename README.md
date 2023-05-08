@@ -1,9 +1,10 @@
 # Translation Pattern Macro
-Welcome to our WXSD DEMO Repo! <!-- Keep this here --> 
 
-This Webex Devices macro lets you easily create locally managed translations patterns which change any dialled destination into another.
+This Webex Device macro lets you easily create locally managed translations patterns which can be use to re-direct a dialled number to another destination.
 
-Add as many Regex based patterns as you want, with the option to redirect, append, prefix or ignore dialled numbers.
+## Overview
+
+Using macros, we are able to monitor when an outbound call has been placed. With this information, we can inspected the dialled number and match it against our own regular expression rules. In the example config below, we have an array of regular expressions which redirect, append, prefix or ignore dialled numbers.
 
 ```js
 const patterns = [
@@ -16,15 +17,13 @@ const patterns = [
 ]
 ```
 
-
-<!-- Keep the following here -->  
- *_Everything included is for demo and Proof of Concept purposes only. Your use of the site is solely at your own risk. This site may contain links to third party content, which we do not warrant, endorse, or assume liability for. These demos are for Cisco Webex usecases, but are not Official Cisco Webex Branded demos._
+Once a match has been found, the existing called it ended and the number is dialled. In the case where the number is matched with a ``continue`` action, we will just ignore that call and allow it to proceed as normal.
 
 
 ## Requirements
 
 1. RoomOS/CE 9.15.x or above Webex Device.
-2. Web admin access to the device to uplaod the macro.
+2. Web admin access to the device to upload the macro.
 
 ## Setup
 
@@ -39,7 +38,20 @@ Validated Hardware:
 * Desk Pro
 * Roomkit Pro
 
+This macro should work on other Webex Devices but has not been validated at this time.
 
-## Support
+## Demo
 
-Please reach out to the WXSD team at [wxsd@external.cisco.com](mailto:wxsd@external.cisco.com?subject=translation-pattern-macro)
+*For more demos & PoCs like this, check out our [Webex Labs site](https://collabtoolbox.cisco.com/webex-labs).
+
+
+## License
+All contents are licensed under the MIT license. Please see [license](LICENSE) for details.
+
+
+## Disclaimer
+Everything included is for demo and Proof of Concept purposes only. Use of the site is solely at your own risk. This site may contain links to third party content, which we do not warrant, endorse, or assume liability for. These demos are for Cisco Webex use cases, but are not Official Cisco Webex Branded demos.
+
+
+## Questions
+Please contact the WXSD team at [wxsd@external.cisco.com](mailto:wxsd@external.cisco.com?subject=translation-pattern-macro) for questions. Or, if you're a Cisco internal employee, reach out to us on the Webex App via our bot (globalexpert@webex.bot). In the "Engagement Type" field, choose the "API/SDK Proof of Concept Integration Development" option to make sure you reach our team. 
