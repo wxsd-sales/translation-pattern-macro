@@ -1,6 +1,6 @@
 # Translation Pattern Macro
 
-This Webex Device macro lets you easily create locally managed translations patterns which can be use to re-direct a dialled number to another destination.
+This Webex Device macro lets you easily create locally managed translations patterns which can be used to re-direct a dialled number to another destination.
 
 ## Overview
 
@@ -19,13 +19,14 @@ const patterns = [
 
 Once a match has been found, the existing called it ended and the number is dialled. In the case where the number is matched with a ``continue`` action, we will just ignore that call and allow it to proceed as normal.
 
-
-## Requirements
-
-1. RoomOS/CE 9.15.x or above Webex Device.
-2. Web admin access to the device to upload the macro.
-
 ## Setup
+
+### Prerequisites & Dependencies: 
+
+- RoomOS/CE 9.15.x or above Webex Device.
+- Web admin access to the device to upload the macro.
+
+### Installation Steps:
 
 1. Download the ``translation-pattern.js`` file and upload it to your Webex Room device via Macro editor available on its web interface.
 2. Configure the Macro by changing the config values at the beginning, there are comments explaining each one.
